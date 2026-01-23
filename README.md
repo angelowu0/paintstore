@@ -5,15 +5,13 @@ This repository is the homework repository for the 10th .NET bootcamp.
 To submit your homework correctly, follow the steps below exactly.
 
 ⚠️ Do NOT push directly to the parent repository.
-All homework must be submitted via your own fork + Pull Request.
+All homework must be submitted via your own branch + Pull Request.
 
 🧠 Overall Workflow (Important)
 
 You will:
 
-Fork the parent homework repository
-
-Clone your fork to your local machine
+Clone to your local machine
 
 Create a new branch for each homework
 
@@ -23,21 +21,9 @@ Create a Pull Request (PR)
 
 Source: your homework branch
 
-Destination: your forked main branch
+Destination: main branch
 
-1️⃣ Fork the Parent Repository
 
-Open the parent homework repository
-
-Click Fork (top-right corner)
-
-Select your own GitHub account
-
-✅ You now have your own copy of the homework repo.
-
-2️⃣ Clone Your Fork to Your Computer
-
-From your forked repository, copy the URL and run:
 
 git clone https://github.com/YOUR_GITHUB_USERNAME/bootcamp-10th-homework-submission.git
 cd bootcamp-10th-homework-submission
@@ -54,6 +40,7 @@ git checkout -b homework-week1
 👉 Use clear names, for example:
 
 homework-week1-csharp-basics
+
 
 4️⃣ Do Your Homework
 
@@ -74,12 +61,12 @@ git commit -m "Complete Week 1 homework"
 
 💡 Use meaningful commit messages.
 
-6️⃣ Push Your Branch to Your Fork
-git push origin homework-week1
+6️⃣ Push Your Branch
+git push -u origin homework-week1
 
 7️⃣ Create a Pull Request (IMPORTANT)
 
-Go to your forked repository on GitHub
+Go to repository on GitHub
 
 Click Compare & pull request
 
@@ -87,7 +74,7 @@ Set:
 
 Source branch: homework-week1
 
-Destination branch: main (in your fork)
+Destination branch: main
 
 Add a clear title, for example:
 
@@ -102,7 +89,6 @@ Click Create pull request
 
 🚫 Pushing directly to the parent repository
 🚫 Doing homework on main
-🚫 Creating PR to the parent repo instead of your fork
 🚫 Submitting without commits
 🚫 One branch for multiple homeworks
 
