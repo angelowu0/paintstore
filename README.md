@@ -1,10 +1,10 @@
-Homework Submission Guide
+**Homework Submission Guide**
 
 Welcome!
 This repository is the homework repository for the 10th .NET bootcamp.
 To submit your homework correctly, follow the steps below exactly.
 
-⚠️ Do NOT push directly to the parent repository.
+⚠️ Do NOT push directly to the main branch.
 All homework must be submitted via your own branch + Pull Request.
 
 🧠 Overall Workflow (Important)
