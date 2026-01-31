@@ -1,6 +1,6 @@
 **Homework Submission Guide**
 
-Welcome! Angelo
+Welcome! Everyone !
 
 This repository is the homework repository for the 10th .NET bootcamp.
 To submit your homework correctly, follow the steps below exactly.
