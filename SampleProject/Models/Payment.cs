@@ -9,7 +9,12 @@ public class Payment(Order order, int paymentId, PaymentStatus status, decimal a
     public int Id { get; } = paymentId;
     public PaymentStatus Status { get; } = status;
     public decimal Amount { get; } = amount;
-    public PaymentMethod method { get; } = method;
+    public PaymentMethod Method { get; } = method;
     public User User { get; } = user;
+
+    public override string ToString()
+    {
+        return $"Id:{Id} Status:{Status} Amount: {Amount} Method: {Method} User: {User}";
+    }
 
 }

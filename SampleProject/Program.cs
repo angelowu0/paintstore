@@ -38,9 +38,31 @@ public class Program()
         Console.WriteLine("paint1 total order rprice:" + orderCombined.TotalPriceOfSinglePaint("paint1"));
 
         orderCombined.RemoveProduct("paint2");
-        Console.WriteLine("after removed:\n"+ orderCombined);
+        Console.WriteLine("after removed:\n" + orderCombined);
 
         // var store1 = new PaintStore([paint1, paint2]);
         // Console.WriteLine("store1\n"+store1);
+
+        var user1 = new User("user1", 20);
+        var orderCombined1 = new Order([order1, order2]);
+        var orderCombined2 = new Order([order1]);
+        var payment1 = new Payment(orderCombined1, 1, PaymentStatus.Pending, 100, PaymentMethod.Alipay, user1);
+        var payment2 = new Payment(orderCombined2, 2, PaymentStatus.Pending, 9, PaymentMethod.Alipay, user1);
+
+        user1.OrderHistory.Add(orderCombined1);
+        user1.OrderHistory.Add(orderCombined2);
+        user1.PaymentHistory.Add(payment2);
+        user1.PaymentHistory.Add(payment1);
+
+        Console.WriteLine("hightest order\n" + user1.GetHighestOrder());
+
+        Console.WriteLine("latest order\n" + user1.GetLatestOrder());
+
+        Console.WriteLine("lowest payment\n" + user1.GetLowestPayment());
+
+        Console.WriteLine("latest payment\n" + user1.GetLatestPayment());
+
+        Console.WriteLine("payments greater than 10");
+        user1.GetPaymentsGreaterThan10().ToList().ForEach(Console.WriteLine);
     }
 }
