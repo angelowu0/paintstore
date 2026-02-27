@@ -1,17 +1,38 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SampleProject.Models;
+
+using PaintStore.API.DataAccess;
+using PaintStore.API.Models;
 
 namespace PaintStore.API.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpGet()]
+
+        private PaintStoreDbContext _dbContext;
+
+        public UserController(PaintStoreDbContext paintStoreDb)
+        {
+            _dbContext = paintStoreDb;
+        }
+
+        [HttpPost]
+        public ActionResult CreateUser([FromBody] User user)
+        {
+            _dbContext.Users.Add(user);
+
+            _dbContext.SaveChanges();
+
+            return Created("GetUserById", user);
+        }
+
+        [HttpGet("GetUsers")]
         public IActionResult GetUsers()
         {
-            List<User> users = [];
+            List<User> users = [.. _dbContext.Users];
 
             if (users.Any())
             {
@@ -21,23 +42,23 @@ namespace PaintStore.API.Controllers
             return NotFound();
         }
 
-        [HttpGet()]
+        [HttpGet("GetUser/{id}")]
         public IActionResult GetUserById(int id)
         {
-            List<User> users = [];
+            var user = _dbContext.Users.FirstOrDefault(user => user.Id == id);
 
-            if (users.Any(user => user.Id == id))
+            if (user == null)
             {
-                return Ok(users.Select(user => user.Id == id));
+                return NotFound();
             }
 
-            return NotFound();
+            return Ok(user);
         }
 
-        [HttpGet()]
+        [HttpGet("GetUsersByName/{name}")]
         public IActionResult GetUserByName(string name)
         {
-            List<User> users = [];
+            List<User> users = [.. _dbContext.Users];
 
             if (users.Any(user => user.Name == name))
             {
@@ -47,10 +68,10 @@ namespace PaintStore.API.Controllers
             return NotFound();
         }
 
-        [HttpGet()]
+        [HttpGet("GetUsersByEmail/{email}")]
         public IActionResult GetUserByEmail(string email)
         {
-            List<User> users = [];
+            List<User> users = [.. _dbContext.Users];
 
             if (users.Any(user => user.Email == email))
             {

@@ -1,24 +1,39 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using SampleProject.Enums;
 using SampleProject.Interfaces;
 
 namespace SampleProject.Models;
 
-public class PaintProduct(Brand brand, string name, PaintType type, PaintSpecification specification, decimal price, decimal taxRatePaint = 0.10m) : IBuyable
+public class PaintProduct : IBuyable
 {
-    private readonly decimal taxRate = taxRatePaint;
     public decimal TaxRate
     {
-        get { return taxRate; }
+        get;
+    }
+
+    public PaintProduct() {}
+
+    public PaintProduct(Brand brand, string name, PaintType type, PaintSpecification specification, decimal price, decimal taxRatePaint = 0.10m)
+    {
+        Brand = brand;
+        Name = name;
+        Type = type;
+        Specification = specification;
+        Price = price;
+        TaxRate = taxRatePaint;
     }
 
     const decimal defaultDiscount = 0.05m;
-    public Brand Brand { get; } = brand;
+    public Brand Brand { get; }
 
-    public string Name { get; } = name;
-    public PaintType Type { get; } = type;
-    public PaintSpecification Specification { get; } = specification;
-    public decimal Price { get; } = price;
+    [MaxLength(50)]
+    public string Name { get; }
+    public PaintType Type { get; }
+    public PaintSpecification Specification { get; }
+
+    [Required]
+    public decimal Price { get; }
 
     public decimal GetFinalPrice()
     {

@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SampleProject.Models;
-using SampleProject.Enums;
-
+using PaintStore.API.DataAccess;
+using PaintStore.API.Models;
 
 namespace PaintStore.API.Controllers
 {
@@ -10,97 +9,95 @@ namespace PaintStore.API.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        [HttpGet("id")]
-        public IActionResult GetAllOrders(int id)
+        private PaintStoreDbContext _dbContext;
+        public OrderController(PaintStoreDbContext paintStoreDb)
         {
-            Brand brand1 = new Brand("Dulux");
-            var paint1 = new PaintProduct(brand1, "paint1", PaintType.BaseCoat, new PaintSpecification("red", 10), 20m);
-            var order1 = new SingleItemOrder(paint1, 20);
-            List<Order> orders = [new Order(1, 1, [order1])];
+            _dbContext = paintStoreDb;
+        }
+
+        [HttpPost("CreateOrder")]
+        public IActionResult CreateOrder([FromBody] Order order)
+        {
+            _dbContext.Orders.Add(order);
+
+            _dbContext.SaveChanges();
+
+            return Created($"GetOrderById/{order.Id}", order);
+        }
+
+        [HttpGet("GetOrder/{id}")]
+        public IActionResult GetSelectOrders(int id)
+        {
+            List<Order> orders = _dbContext.Orders.ToList();
 
             if (orders.Any(order => order.Id == id))
             {
-                return Ok(orders.All(order => order.Id == id));
+                return Ok(orders.Select(order => order.Id == id));
             }
 
             return NotFound();
         }
 
-        [HttpGet()]
+        [HttpGet("GetOrdersRange")]
         public IActionResult GetOrdersByPriceRange(decimal min, decimal max)
         {
-            Brand brand1 = new Brand("Dulux");
-            var paint1 = new PaintProduct(brand1, "paint1", PaintType.BaseCoat, new PaintSpecification("red", 10), 20m);
-            var order1 = new SingleItemOrder(paint1, 20);
-            List<Order> orders = [new Order(1, 1, [order1])];
+            List<Order> orders = _dbContext.Orders.ToList();
 
-            if (orders.Any(order => order.GetTotalPrice() >= min && order.GetTotalPrice() <= max))
+            if (orders.Any(order => order.TotalPrice >= min && order.TotalPrice <= max))
             {
-                return Ok(orders.All(order => order.GetTotalPrice() >= min && order.GetTotalPrice() <= max));
+                return Ok(orders.Select(order => order.TotalPrice >= min && order.TotalPrice <= max));
             }
 
             return NotFound();
         }
 
-        [HttpGet()]
-        public IActionResult GetOrdersByPaintId(string id)
+        [HttpGet("GetOrdersByPaintId/{id}")]
+        public IActionResult GetOrdersByPaintId(int id)
         {
-            Brand brand1 = new Brand("Dulux");
-            var paint1 = new PaintProduct(brand1, "paint1", PaintType.BaseCoat, new PaintSpecification("red", 10), 20m);
-            var order1 = new SingleItemOrder(paint1, 20);
-            List<Order> orders = [new Order(1, 1, [order1])];
+            List<Order> orders = _dbContext.Orders.ToList();
 
-            if (orders.Any(order => order.OrdersArray.Any(singleorder => singleorder.Product.Name == id)))
+            if (orders.Any(order => order.Products.Any(product => product.Id == id)))
             {
-                return Ok(orders.All(order => order.OrdersArray.Any(singleorder => singleorder.Product.Name == id)));
+                return Ok(orders.Select(order => order.Products.Any(product => product.Id == id)));
             }
 
             return NotFound();
         }
 
-        [HttpGet()]
+        [HttpGet("GetOrdersByUserId/{id}")]
         public IActionResult GetOrdersByUserId(int id)
         {
-            Brand brand1 = new Brand("Dulux");
-            var paint1 = new PaintProduct(brand1, "paint1", PaintType.BaseCoat, new PaintSpecification("red", 10), 20m);
-            var order1 = new SingleItemOrder(paint1, 20);
-            List<Order> orders = [new Order(1, 1, [order1])];
+            List<Order> orders = _dbContext.Orders.ToList();
 
             if (orders.Any(order => order.UserId == id))
             {
-                return Ok(orders.All(order => order.UserId == id));
+                return Ok(orders.Select(order => order.UserId == id));
             }
 
             return NotFound();
         }
 
-        [HttpGet()]
-        public IActionResult GetLastMonthOrders(int id)
+        [HttpGet("GetLastMonthOrders")]
+        public IActionResult GetLastMonthOrders()
         {
-            Brand brand1 = new Brand("Dulux");
-            var paint1 = new PaintProduct(brand1, "paint1", PaintType.BaseCoat, new PaintSpecification("red", 10), 20m);
-            var order1 = new SingleItemOrder(paint1, 20);
-            List<Order> orders = [new Order(1, 1, [order1])];
+            List<Order> orders = _dbContext.Orders.ToList();
 
             if (orders.Any(order => order.CreatedDate >= DateTime.Now.AddMonths(-1)))
             {
-                return Ok(orders.All(order => order.CreatedDate >= DateTime.Now.AddMonths(-1)));
+                return Ok(orders.Select(order => order.CreatedDate >= DateTime.Now.AddMonths(-1)));
             }
 
             return NotFound();
         }
 
-        [HttpGet()]
+        [HttpGet("GetOrdersByDate")]
         public IActionResult GetOrdersByDate(DateTime date)
         {
-            Brand brand1 = new Brand("Dulux");
-            var paint1 = new PaintProduct(brand1, "paint1", PaintType.BaseCoat, new PaintSpecification("red", 10), 20m);
-            var order1 = new SingleItemOrder(paint1, 20);
-            List<Order> orders = [new Order(1, 1, [order1])];
+            List<Order> orders = _dbContext.Orders.ToList();
 
             if (orders.Any(order=>order.CreatedDate == date))
             {
-                return Ok(orders.All(order=>order.CreatedDate == date));
+                return Ok(orders.Select(order=>order.CreatedDate == date));
             }
 
             return NotFound();

@@ -24,7 +24,7 @@ public class Program()
         // order1.DisplayOrder();
         // order2.DisplayOrder();
         // order3.DisplayOrder();
-        var orderCombined = new Order([order1, order2, order3]);
+        var orderCombined = new Order(1, 1, [order1, order2, order3]);
         // Console.WriteLine(orderCombined.GetTotalPrice());
         Console.WriteLine("Most Expensive\n" + orderCombined.GetMostExpensivePaintProduct());
         // Console.WriteLine("combinedorder\n"+orderCombined+orderCombined.GetTotalPrice());
@@ -43,9 +43,9 @@ public class Program()
         // var store1 = new PaintStore([paint1, paint2]);
         // Console.WriteLine("store1\n"+store1);
 
-        var user1 = new User("user1", 20);
-        var orderCombined1 = new Order(1,[order1, order2]);
-        var orderCombined2 = new Order(2,[order1]);
+        var user1 = new User(1, "user1", 20, "a");
+        var orderCombined1 = new Order(1, 1,[order1, order2]);
+        var orderCombined2 = new Order(1, 2,[order1]);
         var payment1 = new Payment(orderCombined1, 1, PaymentStatus.Pending, 100, PaymentMethod.Alipay, user1);
         var payment2 = new Payment(orderCombined2, 2, PaymentStatus.Pending, 9, PaymentMethod.Alipay, user1);
 

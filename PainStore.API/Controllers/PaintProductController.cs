@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SampleProject.Models;
-using SampleProject.Enums;
+using PaintStore.API.Models;
+using PaintStore.API.DataAccess;
 
 namespace PaintStore.API.Controllers
 {
@@ -9,12 +9,26 @@ namespace PaintStore.API.Controllers
     [ApiController]
     public class PaintProductController : ControllerBase
     {
-        [HttpGet("{id}")]
+        private PaintStoreDbContext _dbContext;
+        public PaintProductController(PaintStoreDbContext paintStoreDb)
+        {
+            _dbContext = paintStoreDb;
+        }
+
+        [HttpPost()]
+        public IActionResult CreatePaintProduct([FromBody] PaintProduct product)
+        {
+            _dbContext.Products.Add(product);
+
+            _dbContext.SaveChanges();
+
+            return Created($"GetProductById/{product.Id}", product);
+        }
+
+        [HttpGet("GetPaintProducts")]
         public IActionResult GetAllPaintProducts()
         {
-            Brand brand1 = new Brand("Dulux");
-            var paint1 = new PaintProduct(brand1, "paint1", PaintType.BaseCoat, new PaintSpecification("red", 10), 20m);
-            List<PaintProduct> paintProducts = [paint1];
+            List<PaintProduct> paintProducts = _dbContext.Products.ToList();
 
             if (paintProducts.Any())
             {
@@ -25,16 +39,13 @@ namespace PaintStore.API.Controllers
         }
 
 
-        [HttpGet()]
+        [HttpGet("GetProductsByPriceRange")]
         public IActionResult GetProductsByPriceRange(decimal min, decimal max)
         {
-            Brand brand1 = new Brand("Dulux");
-            var paint1 = new PaintProduct(brand1, "paint1", PaintType.BaseCoat, new PaintSpecification("red", 10), 20m);
-            List<PaintProduct> paintProducts = [paint1];
-
-            if (paintProducts.Any(paint => paint.GetFinalPrice() >= min && paint.GetFinalPrice() <= max))
+            List<PaintProduct> paintProducts = _dbContext.Products.ToList();
+            if (paintProducts.Any(paint => paint.Price >= min && paint.Price <= max))
             {
-                return Ok(paintProducts.Select(paint => paint.GetFinalPrice() >= min && paint.GetFinalPrice() <= max));
+                return Ok(paintProducts.Select(paint => paint.Price >= min && paint.Price <= max));
             }
 
             return NotFound();

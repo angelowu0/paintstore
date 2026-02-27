@@ -2,12 +2,23 @@ using System;
 
 namespace SampleProject.Models;
 
-public class Order(int id, int userId, SingleItemOrder[] ordersArray)
+public class Order
 {
-    public int Id { get; } = id;
-    public int UserId { get; } = userId;
-    public DateTime CreatedDate { get; } = DateTime.Now;
-    public SingleItemOrder[] OrdersArray { get; set; } = ordersArray;
+    public int Id { get; set; }
+    public int UserId { get; }
+    public DateTime CreatedDate { get; }
+    public SingleItemOrder[] OrdersArray { get; set; }
+
+    public Order() {}
+
+    public Order(int id, int userId, SingleItemOrder[] ordersArray)
+    {
+        Id = id;
+        this.UserId = userId;
+        this.CreatedDate = DateTime.Now;
+        this.OrdersArray = ordersArray;
+
+    }
 
     public decimal GetTotalPrice()
     {
