@@ -44,8 +44,8 @@ public class Program()
         // Console.WriteLine("store1\n"+store1);
 
         var user1 = new User("user1", 20);
-        var orderCombined1 = new Order([order1, order2]);
-        var orderCombined2 = new Order([order1]);
+        var orderCombined1 = new Order(1,[order1, order2]);
+        var orderCombined2 = new Order(2,[order1]);
         var payment1 = new Payment(orderCombined1, 1, PaymentStatus.Pending, 100, PaymentMethod.Alipay, user1);
         var payment2 = new Payment(orderCombined2, 2, PaymentStatus.Pending, 9, PaymentMethod.Alipay, user1);
 

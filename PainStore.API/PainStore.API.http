@@ -1,0 +1,6 @@
+@PainStore.API_HostAddress = http://localhost:5272
+
+GET {{PainStore.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

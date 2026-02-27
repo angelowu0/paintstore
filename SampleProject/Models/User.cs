@@ -3,10 +3,13 @@ using SampleProject.Enums;
 
 namespace SampleProject.Models;
 
-public class User(string name, int age)
+public class User(int id, string name, int age, string email)
 {
+    public int Id { get; } = id;
     public string Name { get; set; } = name;
     public int Age { get; set; } = age;
+
+    public string Email { get; } = email;
 
     public void DisplayUserInfo()
     {

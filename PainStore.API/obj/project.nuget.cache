@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "XJkg5hoqtAQ=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Angelo\\Desktop\\bootcamp-10th-homework-submission\\PainStore.API\\PaintStore.API.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Angelo\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.2\\microsoft.aspnetcore.openapi.10.0.2.nupkg.sha512",
+    "C:\\Users\\Angelo\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

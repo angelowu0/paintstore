@@ -2,8 +2,11 @@ using System;
 
 namespace SampleProject.Models;
 
-public class Order(SingleItemOrder[] ordersArray)
+public class Order(int id, int userId, SingleItemOrder[] ordersArray)
 {
+    public int Id { get; } = id;
+    public int UserId { get; } = userId;
+    public DateTime CreatedDate { get; } = DateTime.Now;
     public SingleItemOrder[] OrdersArray { get; set; } = ordersArray;
 
     public decimal GetTotalPrice()
