@@ -1,0 +1,8 @@
+2026-03-10 21:03:58.067 +11:00 [INF] Now listening on: http://localhost:5272
+2026-03-10 21:03:58.166 +11:00 [INF] Application started. Press Ctrl+C to shut down.
+2026-03-10 21:03:58.169 +11:00 [INF] Hosting environment: Development
+2026-03-10 21:03:58.170 +11:00 [INF] Content root path: C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API
+2026-03-10 21:04:52.896 +11:00 [INF] Request starting HTTP/1.1 POST http://localhost:5272/CreateUser - application/json 19
+2026-03-10 21:04:52.914 +11:00 [INF] The host 'localhost:5272' does not match an allowed host.
+2026-03-10 21:04:52.941 +11:00 [INF] Request finished HTTP/1.1 POST http://localhost:5272/CreateUser - 400 334 text/html 49.1029ms
+2026-03-10 21:05:45.618 +11:00 [INF] Application is shutting down...

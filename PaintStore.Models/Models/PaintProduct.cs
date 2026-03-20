@@ -1,0 +1,22 @@
+using System;
+
+namespace PaintStore.Models.Models;
+
+public class PaintProduct
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public decimal Price { get; set; }
+
+    public int Inventory { get; set; }
+
+    public PaintProduct(int id, string name, decimal price, int inventory)
+    {
+        Id = id;
+        Name = name;
+        Price = price;
+        CreatedDate = DateTime.Now;
+        Inventory = inventory;
+    }
+}

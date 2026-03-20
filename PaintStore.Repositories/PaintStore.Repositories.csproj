@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PaintStore.DataAccess\PaintStore.DataAccess.csproj" />
+    <ProjectReference Include="..\PaintStore.Models\PaintStore.Models.csproj" />
+  </ItemGroup>
+
+</Project>

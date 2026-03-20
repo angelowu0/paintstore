@@ -1,84 +1,112 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-using PaintStore.API.DataAccess;
-using PaintStore.API.Models;
+using PaintStore.Models.DTOs;
+using PaintStore.Models.Interfaces.Services;
 
 namespace PaintStore.API.Controllers
 {
 
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class UserController : ControllerBase
     {
 
-        private PaintStoreDbContext _dbContext;
+        private readonly IUserService _service;
 
-        public UserController(PaintStoreDbContext paintStoreDb)
+        private ILogger<UserController> _logger;
+
+
+        public UserController(IUserService service, ILogger<UserController> logger)
         {
-            _dbContext = paintStoreDb;
+            _service = service;
+            _logger = logger;
         }
 
         [HttpPost]
-        public ActionResult CreateUser([FromBody] User user)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult CreateUser([FromBody] CreateUserRequest createUserRequest)
         {
-            _dbContext.Users.Add(user);
+            _logger.LogInformation("Create User: Received request");
 
-            _dbContext.SaveChanges();
+            var userResponse = _service.CreateUser(createUserRequest);
 
-            return Created("GetUserById", user);
+            _logger.LogInformation("Created User: User created with id");
+            return Created($"/api/users/{userResponse.Id}", userResponse);
         }
 
-        [HttpGet("GetUsers")]
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetUsers()
         {
-            List<User> users = [.. _dbContext.Users];
+            List<UserResponse> users = _service.GetUsers();
 
-            if (users.Any())
-            {
-                return Ok(users);
-            }
-
-            return NotFound();
+            return Ok(users);
         }
 
-        [HttpGet("GetUser/{id}")]
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetUserById(int id)
         {
-            var user = _dbContext.Users.FirstOrDefault(user => user.Id == id);
+            var user = _service.GetUserById(id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
+            if (user == null) return NotFound();
 
             return Ok(user);
         }
 
-        [HttpGet("GetUsersByName/{name}")]
-        public IActionResult GetUserByName(string name)
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult UpdateUser(int id, [FromBody] UpdateUserRequest updateUserRequest)
         {
-            List<User> users = [.. _dbContext.Users];
 
-            if (users.Any(user => user.Name == name))
-            {
-                return Ok(users.Select(user => user.Name == name));
-            }
+            var updatedUser = _service.UpdateUser(id, updateUserRequest);
 
-            return NotFound();
+            if (updatedUser == null) return NotFound();
+
+            return Ok(updatedUser);
         }
 
-        [HttpGet("GetUsersByEmail/{email}")]
-        public IActionResult GetUserByEmail(string email)
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult DeleteUser(int id)
         {
-            List<User> users = [.. _dbContext.Users];
 
-            if (users.Any(user => user.Email == email))
-            {
-                return Ok(users.Select(user => user.Email == email));
-            }
+            var deletedUserResponse = _service.DeleteUser(id);
 
-            return NotFound();
+            if (deletedUserResponse == null) return NotFound();
+
+            return Ok(deletedUserResponse);
         }
+
+        // [HttpGet("GetUserByName/{name}")]
+        // public IActionResult GetUserByName(string name)
+        // {
+        //     List<User> users = [.. _dbContext.Users];
+
+        //     if (users.Any(user => user.Name == name))
+        //     {
+        //         return Ok(users.Select(user => user.Name == name));
+        //     }
+
+        //     return NotFound();
+        // }
+
+        // [HttpGet("GetUsersByEmail/{email}")]
+        // public IActionResult GetUserByEmail(string email)
+        // {
+        //     List<User> users = [.. _dbContext.Users];
+
+        //     if (users.Any(user => user.Email == email))
+        //     {
+        //         return Ok(users.Select(user => user.Email == email));
+        //     }
+
+        //     return NotFound();
+        // }
     }
 }

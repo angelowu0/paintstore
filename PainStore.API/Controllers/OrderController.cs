@@ -1,106 +1,176 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PaintStore.API.DataAccess;
-using PaintStore.API.Models;
+using PaintStore.Models.Interfaces.Services;
+using AutoMapper;
+using PaintStore.Models.Models;
+using PaintStore.Models.DTOs.Orders;
+
 
 namespace PaintStore.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class OrderController : ControllerBase
     {
-        private PaintStoreDbContext _dbContext;
-        public OrderController(PaintStoreDbContext paintStoreDb)
+        private readonly IOrderService _service;
+
+        private ILogger<OrderController> _logger;
+
+
+        public OrderController(IOrderService service, ILogger<OrderController> logger)
         {
-            _dbContext = paintStoreDb;
+            _service = service;
+            _logger = logger;
         }
 
-        [HttpPost("CreateOrder")]
-        public IActionResult CreateOrder([FromBody] Order order)
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult CreateOrder([FromBody] CreateOrderRequest createOrderRequest)
         {
-            _dbContext.Orders.Add(order);
+            _logger.LogInformation("Create Order: Received request");
 
-            _dbContext.SaveChanges();
+            var newOrderResponse = _service.CreateOrder(createOrderRequest);
 
-            return Created($"GetOrderById/{order.Id}", order);
+            _logger.LogInformation("Created Order: Order created with id");
+            return Created($"/api/Orders/{newOrderResponse.Id}", newOrderResponse);
         }
 
-        [HttpGet("GetOrder/{id}")]
-        public IActionResult GetSelectOrders(int id)
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetOrders()
         {
-            List<Order> orders = _dbContext.Orders.ToList();
+            List<OrderResponse> Orders = _service.GetOrders();
 
-            if (orders.Any(order => order.Id == id))
-            {
-                return Ok(orders.Select(order => order.Id == id));
-            }
-
-            return NotFound();
+            return Ok(Orders);
         }
 
-        [HttpGet("GetOrdersRange")]
-        public IActionResult GetOrdersByPriceRange(decimal min, decimal max)
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult GetOrderById(int id)
         {
-            List<Order> orders = _dbContext.Orders.ToList();
+            var Order = _service.GetOrderById(id);
 
-            if (orders.Any(order => order.TotalPrice >= min && order.TotalPrice <= max))
-            {
-                return Ok(orders.Select(order => order.TotalPrice >= min && order.TotalPrice <= max));
-            }
+            if (Order == null) return NotFound();
 
-            return NotFound();
+            return Ok(Order);
         }
 
-        [HttpGet("GetOrdersByPaintId/{id}")]
-        public IActionResult GetOrdersByPaintId(int id)
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult UpdateOrder(int id, [FromBody] UpdateOrderRequest updateOrderRequest)
         {
-            List<Order> orders = _dbContext.Orders.ToList();
 
-            if (orders.Any(order => order.Products.Any(product => product.Id == id)))
-            {
-                return Ok(orders.Select(order => order.Products.Any(product => product.Id == id)));
-            }
 
-            return NotFound();
+            var updatedOrderResponse = _service.UpdateOrder(id, updateOrderRequest);
+
+            if (updatedOrderResponse == null) return NotFound();
+
+
+            return Ok(updatedOrderResponse);
         }
 
-        [HttpGet("GetOrdersByUserId/{id}")]
-        public IActionResult GetOrdersByUserId(int id)
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult DeleteOrder(int id)
         {
-            List<Order> orders = _dbContext.Orders.ToList();
 
-            if (orders.Any(order => order.UserId == id))
-            {
-                return Ok(orders.Select(order => order.UserId == id));
-            }
+            var deletedOrderResponse = _service.DeleteOrder(id);
 
-            return NotFound();
+
+            return Ok(deletedOrderResponse);
         }
 
-        [HttpGet("GetLastMonthOrders")]
-        public IActionResult GetLastMonthOrders()
-        {
-            List<Order> orders = _dbContext.Orders.ToList();
+        // [HttpPost("CreateOrder")]
+        // public IActionResult CreateOrder([FromBody] Order order)
+        // {
+        //     _dbContext.Orders.Add(order);
 
-            if (orders.Any(order => order.CreatedDate >= DateTime.Now.AddMonths(-1)))
-            {
-                return Ok(orders.Select(order => order.CreatedDate >= DateTime.Now.AddMonths(-1)));
-            }
+        //     _dbContext.SaveChanges();
 
-            return NotFound();
-        }
+        //     return Created($"GetOrderById/{order.Id}", order);
+        // }
 
-        [HttpGet("GetOrdersByDate")]
-        public IActionResult GetOrdersByDate(DateTime date)
-        {
-            List<Order> orders = _dbContext.Orders.ToList();
+        // [HttpGet("GetOrder/{id}")]
+        // public IActionResult GetSelectOrders(int id)
+        // {
+        //     List<Order> orders = _dbContext.Orders.ToList();
 
-            if (orders.Any(order=>order.CreatedDate == date))
-            {
-                return Ok(orders.Select(order=>order.CreatedDate == date));
-            }
+        //     if (orders.Any(order => order.Id == id))
+        //     {
+        //         return Ok(orders.Select(order => order.Id == id));
+        //     }
 
-            return NotFound();
-        }
+        //     return NotFound();
+        // }
+
+        // [HttpGet("GetOrdersRange")]
+        // public IActionResult GetOrdersByPriceRange(decimal min, decimal max)
+        // {
+        //     List<Order> orders = _dbContext.Orders.ToList();
+
+        //     if (orders.Any(order => order.TotalPrice >= min && order.TotalPrice <= max))
+        //     {
+        //         return Ok(orders.Select(order => order.TotalPrice >= min && order.TotalPrice <= max));
+        //     }
+
+        //     return NotFound();
+        // }
+
+        // [HttpGet("GetOrdersByPaintId/{id}")]
+        // public IActionResult GetOrdersByPaintId(int id)
+        // {
+        //     List<Order> orders = _dbContext.Orders.ToList();
+
+        //     if (orders.Any(order => order.Products.Any(product => product.Id == id)))
+        //     {
+        //         return Ok(orders.Select(order => order.Products.Any(product => product.Id == id)));
+        //     }
+
+        //     return NotFound();
+        // }
+
+        // [HttpGet("GetOrdersByUserId/{id}")]
+        // public IActionResult GetOrdersByUserId(int id)
+        // {
+        //     List<Order> orders = _dbContext.Orders.ToList();
+
+        //     if (orders.Any(order => order.UserId == id))
+        //     {
+        //         return Ok(orders.Select(order => order.UserId == id));
+        //     }
+
+        //     return NotFound();
+        // }
+
+        // [HttpGet("GetLastMonthOrders")]
+        // public IActionResult GetLastMonthOrders()
+        // {
+        //     List<Order> orders = _dbContext.Orders.ToList();
+
+        //     if (orders.Any(order => order.CreatedDate >= DateTime.Now.AddMonths(-1)))
+        //     {
+        //         return Ok(orders.Select(order => order.CreatedDate >= DateTime.Now.AddMonths(-1)));
+        //     }
+
+        //     return NotFound();
+        // }
+
+        // [HttpGet("GetOrdersByDate")]
+        // public IActionResult GetOrdersByDate(DateTime date)
+        // {
+        //     List<Order> orders = _dbContext.Orders.ToList();
+
+        //     if (orders.Any(order=>order.CreatedDate == date))
+        //     {
+        //         return Ok(orders.Select(order=>order.CreatedDate == date));
+        //     }
+
+        //     return NotFound();
+        // }
     }
 }
