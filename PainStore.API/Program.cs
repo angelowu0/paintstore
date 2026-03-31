@@ -4,6 +4,10 @@ using Serilog;
 using FluentValidation;
 using PaintStore.Models.DTOs;
 using PaintStore.DataAccess;
+using PaintStore.Models.Interfaces.Services;
+using PaintStore.Services.Services;
+using PaintStore.Models.Interfaces.Repositories;
+using PaintStore.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,10 +16,15 @@ builder.Services.AddControllers().AddJsonOptions(x=>x.JsonSerializerOptions.Refe
 
 builder.Services.AddDbContext<PaintStoreDbContext>(options =>
     options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        b => b.MigrationsAssembly("PaintStore.DataAccess")));
 
 // TODO: remove
 builder.Services.AddScoped<PaintStoreDbContext>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // Abstraction <-------------> Implementation
 

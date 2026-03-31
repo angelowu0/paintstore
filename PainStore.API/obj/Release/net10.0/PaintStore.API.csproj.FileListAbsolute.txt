@@ -178,3 +178,9 @@ C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\obj\Rele
 C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\obj\Release\net10.0\PaintStore.API.pdb
 C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\obj\Release\net10.0\PaintStore.API.genruntimeconfig.cache
 C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\obj\Release\net10.0\ref\PaintStore.API.dll
+C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\bin\Release\net10.0\publish\web.config
+C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\bin\Release\net10.0\publish\appsettings.Development.json
+C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\bin\Release\net10.0\publish\appsettings.json
+C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\bin\Release\net10.0\publish\PaintStore.API.deps.json
+C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\bin\Release\net10.0\publish\PaintStore.API.runtimeconfig.json
+C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\PainStore.API\bin\Release\net10.0\publish\PaintStore.API.staticwebassets.endpoints.json

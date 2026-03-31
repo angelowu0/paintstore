@@ -1,0 +1,3 @@
+C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\publish\PaintStore.Models.dll
+C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\publish\PaintStore.Models.deps.json
+C:\Users\Angelo\Desktop\bootcamp-10th-homework-submission\publish\PaintStore.Models.pdb
