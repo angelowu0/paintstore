@@ -32,5 +32,5 @@ jobs:
       - name: Deploy to Azure App Service
         uses: azure/webapps-deploy@v3
         with:
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.AZURE_WEPAPP_PUBLISH_PROFILE }}
           package: ${{ env.PUBLISH_DIR }} # ← note: "package" not "packages"
