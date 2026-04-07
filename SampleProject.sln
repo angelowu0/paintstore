@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintStore.Models", "PaintS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintStore.DataAccess", "PaintStore.DataAccess\PaintStore.DataAccess.csproj", "{F8D47C39-1081-44B5-8397-8FF910E23727}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintStore.Tests", "PaintStore.Tests\PaintStore.Tests.csproj", "{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{F8D47C39-1081-44B5-8397-8FF910E23727}.Release|x64.Build.0 = Release|Any CPU
 		{F8D47C39-1081-44B5-8397-8FF910E23727}.Release|x86.ActiveCfg = Release|Any CPU
 		{F8D47C39-1081-44B5-8397-8FF910E23727}.Release|x86.Build.0 = Release|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Debug|x64.Build.0 = Debug|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Debug|x86.Build.0 = Debug|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Release|x64.ActiveCfg = Release|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Release|x64.Build.0 = Release|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Release|x86.ActiveCfg = Release|Any CPU
+		{05E4C6B2-94B9-4B0D-BF9B-C8BFE1F92EDD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

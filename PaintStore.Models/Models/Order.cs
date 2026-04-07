@@ -15,6 +15,6 @@ public class Order
         Id = id;
         UserId = userId;
         CreatedDate = DateTime.Now;
-        Products = [];
+        Products = new List<PaintProduct>();
     }
 }

@@ -10,7 +10,7 @@ namespace PaintStore.Services.Services;
 public class UserService(IUserRepository repo, IMapper mapper) : IUserService
 {
 
-    private IMapper _mapper = mapper;
+    private readonly IMapper _mapper = mapper;
     private readonly IUserRepository _repo = repo;
 
     public UserResponse CreateUser(CreateUserRequest request)
